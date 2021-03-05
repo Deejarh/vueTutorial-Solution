@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/first challenge/style.css" />
+    <title>Document</title>
+    <script src="/first challenge/vue.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="nav-bar"></nav>
+    </header>
+
+    <div id="app">
+      <div class="product">
+        <div class="product-img">
+          <img v-bind:src="image" />
+        </div>
+        <div class="product-info">
+          <h1>{{ product }}</h1>
+          <p>{{description}}</p>
+          <p v-if="instock">Instock</p>
+          <p v-else="instock">OutofStock</p>
+          <span v-if="onsale">OnSales</span>
+
+          <ul>
+            <li v-for="detail in details">{{detail}}</li>
+          </ul>
+
+          <button v-on:click="addtoCart">Add to Cart</button>
+          <div class="cart">
+            <p>cart({{cart}})</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          product: "Socks",
+          description: "A pair of warm fuzzy socks",
+          image:
+            "https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg",
+          instock: true,
+          onsale: true,
+          details: ["80% cotton", "20% polyester", "Gender-neutral"],
+          cart: 0,
+        },
+        methods: {
+          addtoCart: function () {
+            this.cart += 1;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
