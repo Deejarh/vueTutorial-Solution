@@ -12,49 +12,102 @@
     <header>
       <nav class="nav-bar"></nav>
     </header>
-
     <div id="app">
+      <product></product>
+      <product></product>
+      <product></product>
+    </div>
+
+    <script>
+      Vue.component("product", {
+        template: `
+        
       <div class="product">
         <div class="product-img">
           <img v-bind:src="image" />
         </div>
         <div class="product-info">
-          <h1>{{ product }}</h1>
+          <h1>{{title}}</h1>
           <p>{{description}}</p>
           <p v-if="instock">Instock</p>
-          <p v-else="instock">OutofStock</p>
+          <p v-else :class = '{OutofStock: !instock }'>OutofStock</p>
           <span v-if="onsale">OnSales</span>
 
           <ul>
             <li v-for="detail in details">{{detail}}</li>
           </ul>
-
-          <button v-on:click="addtoCart">Add to Cart</button>
+          
+ <div class="color-box"
+ v-for="(variant,index ) in variants" 
+ :key="variant.variantId"
+ :style="{ backgroundColor: variant.variantColor }"
+ @mouseover="updateProduct(index)"
+ >
+</div> 
+          <button v-on:click="addtoCart" :disabled = '!instock'
+          :class= '{disabledButton: !instock}'>Add to Cart</button>
           <div class="cart">
             <p>cart({{cart}})</p>
           </div>
         </div>
       </div>
     </div>
+        `,
+        data() {
+          return {
+            brand: "Vue Mastery",
+            product: "Socks",
+            description: "A pair of warm fuzzy socks",
+            /*  image:  "https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg", */
+            selectedVariant: 0,
+            onsale: true,
+            details: ["80% cotton", "20% polyester", "Gender-neutral"],
+            cart: 0,
 
-    <script>
-      var app = new Vue({
-        el: "#app",
-        data: {
-          product: "Socks",
-          description: "A pair of warm fuzzy socks",
-          image:
-            "https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg",
-          instock: true,
-          onsale: true,
-          details: ["80% cotton", "20% polyester", "Gender-neutral"],
-          cart: 0,
+            variants: [
+              {
+                variantId: 2234,
+                variantColor: "Blue",
+                variantImage:
+                  "https://www.vuemastery.com/images/challenges/vmSocks-blue-onWhite.jpg",
+                variantQuantity: 10,
+              },
+              {
+                variantId: 2235,
+                variantColor: "Green",
+                variantImage:
+                  "https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg",
+                variantQuantity: 0,
+              },
+            ],
+          };
         },
         methods: {
           addtoCart: function () {
             this.cart += 1;
           },
+          updateProduct: function (index) {
+            this.selectedVariant = index;
+            console.log(index);
+          },
         },
+
+        computed: {
+          title() {
+            return this.brand + "" + this.product;
+          },
+          image() {
+            return this.variants[this.selectedVariant].variantImage;
+          },
+
+          instock() {
+            return this.variants[this.selectedVariant].variantQuantity;
+          },
+        },
+      });
+
+      var app = new Vue({
+        el: "#app",
       });
     </script>
   </body>

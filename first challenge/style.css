@@ -3,12 +3,13 @@
 }
 
 body{
-    width: 800px;
+    width: 1000px;
     margin: auto;
     
 }
 .product{
     display: flex;
+    width: 100%;
 }
 
 
@@ -41,4 +42,17 @@ button:focus{
     border: 1px solid rgb(214, 205, 205);
     font-size: 1.5em;
     float:right;
+}
+.color-box{
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+
+}
+.disabledButton{
+    background-color: gray;
+    border: 2px solid gray;
+}
+.OutofStock{
+    text-decoration: line-through;
 }
